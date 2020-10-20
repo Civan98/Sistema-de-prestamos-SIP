@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "165890293791",
+    "firebase_url": "https://spi-salario.firebaseio.com",
+    "project_id": "spi-salario",
+    "storage_bucket": "spi-salario.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165890293791:android:7a67273245400ed2d2952a",
+        "android_client_info": {
+          "package_name": "com.example.app_sp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165890293791-12b6k94auoe97friiq2ci06b9ev4bmfr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZWIMPqMOLhVZvVPMna7DXecjVTfvV98Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165890293791-12b6k94auoe97friiq2ci06b9ev4bmfr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

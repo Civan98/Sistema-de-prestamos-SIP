@@ -15,6 +15,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
     final _formKey = GlobalKey<FormState>();
+    final TextEditingController _pass = TextEditingController();
+    final TextEditingController _confirmPass = TextEditingController();
 
   bool _hiddenpassword = true;
 
@@ -40,7 +42,10 @@ class _BodyState extends State<Body> {
               children: <Widget>[
             _inputName(),
             _inputLastN(),
+            _inputRFC(),
             _inputMail(),
+            _inputPassword(),
+            _inputConfirmPassword(),
             _buttonSend(),
               ],
             ) ,
@@ -106,7 +111,7 @@ class _BodyState extends State<Body> {
     ));
   }
     Widget _inputName() {
-      RegExp name = RegExp("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+");
+      RegExp name = RegExp(r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$");
     return TextFieldContainer(
         child: TextFormField(
       decoration:
@@ -119,24 +124,32 @@ class _BodyState extends State<Body> {
         if (value.isEmpty) {
           return "No puede estar vacio!";
         }
+        if(!(name.hasMatch(value)))
+        {
+          return "El nombre no esta bien!";
+        }
         return null;
       },
     ));
   }
 
-Widget _inputLastN() {
+ Widget _inputLastN() {
+      RegExp name = RegExp(r"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$");
     return TextFieldContainer(
         child: TextFormField(
-          keyboardType: TextInputType.text,
       decoration:
           InputDecoration(
-            hintText: "Tus apellidos",
+            hintText: "Apellidos",
             border: InputBorder.none,
-            icon: Icon(Icons.account_circle,),),
+            icon: Icon(Icons.account_circle),),
       onChanged: (value) {},
       validator: (value) {
         if (value.isEmpty) {
           return "No puede estar vacio!";
+        }
+        if(!(name.hasMatch(value)))
+        {
+          return "Los apellidos no estan bien!";
         }
         return null;
       },
@@ -146,6 +159,7 @@ Widget _inputLastN() {
  Widget _inputPassword() {
     return TextFieldContainer(
         child: TextFormField(
+          controller: _pass,
       obscureText: _hiddenpassword,
       decoration:
           InputDecoration(
@@ -163,6 +177,60 @@ Widget _inputLastN() {
       validator: (value) {
         if (value.isEmpty) {
           return "No puede estar vacio!";
+        }
+        return null;
+      },
+    ));
+  }
+  Widget _inputConfirmPassword() {
+    return TextFieldContainer(
+        child: TextFormField(
+          controller: _confirmPass,
+      obscureText: _hiddenpassword,
+      decoration:
+          InputDecoration(
+          hintText: "Tú contraseña",
+          border: InputBorder.none,
+          icon: IconButton(
+            icon: Icon(_hiddenpassword?Icons.lock:Icons.remove_red_eye), onPressed: (
+              (){
+                setState(() {
+                  _hiddenpassword = !_hiddenpassword;
+                });
+              }
+              ))),
+      onChanged: (value) {},
+      validator: (value) {
+        if (value.isEmpty) 
+        {
+          return "No puede estar vacio!";
+        }
+        if(value != _pass.text)
+        {
+          return "La contraseñas no coinciden";
+        }
+        return null;
+      },
+    ));
+  }
+Widget _inputRFC() {
+  RegExp rfc = RegExp(r"^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$");
+    return TextFieldContainer(
+        child: TextFormField(
+      textCapitalization: TextCapitalization.characters,
+      decoration:
+          InputDecoration(
+          hintText: "RFC",
+          border: InputBorder.none,
+          icon:Icon(Icons.account_tree_rounded) ),
+      onChanged: (value) {},
+      validator: (value) {
+        if (value.isEmpty) {
+          return "No puede estar vacio!";
+        }
+        if((!rfc.hasMatch(value)))
+        {
+          return "RFC no valido";
         }
         return null;
       },

@@ -56,12 +56,6 @@ class _BodyState extends State<Body> {
     );
   }
 
-    Future _getImage() async{    
-  final ref = FirebaseStorage.instance.ref().child("gs://spi-salario.appspot.com/fotos de usuarios/luis_miguel.png");
-  var url = await ref.getDownloadURL();
-  return url;
-  }
-
   Widget _dataTable()
   {
    return SingleChildScrollView(

@@ -1,11 +1,13 @@
 import 'package:app_sp/components/text_field_container.dart';
 import 'package:app_sp/constants.dart';
+import 'package:app_sp/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:app_sp/Screens/Login/components/background_login.dart';
 import 'package:app_sp/Screens/Signup/signup_screen.dart';
 import 'package:app_sp/components/already_have_an_account_acheck.dart';
 import 'package:app_sp/components/rounded_button.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class BodyLogin extends StatefulWidget {
   const BodyLogin({
@@ -18,8 +20,9 @@ class BodyLogin extends StatefulWidget {
 
 class _BodyLoginState extends State<BodyLogin> {
   final _formKey = GlobalKey<FormState>();
-  String _password = "";
-  String _email = "";
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   bool _hiddenpassword = true;
   @override
   Widget build(BuildContext context) {
@@ -77,6 +80,7 @@ class _BodyLoginState extends State<BodyLogin> {
   Widget _inputMail() {
     return TextFieldContainer(
         child: TextFormField(
+          controller: emailController,
       decoration: InputDecoration(
         hintText: "Correo electrónico",
         border: InputBorder.none,
@@ -97,6 +101,7 @@ class _BodyLoginState extends State<BodyLogin> {
   Widget _inputPassword() {
     return TextFieldContainer(
         child: TextFormField(
+          controller: passwordController,
       obscureText: _hiddenpassword,
       decoration: InputDecoration(
           hintText: "Contraseña",
@@ -126,7 +131,10 @@ class _BodyLoginState extends State<BodyLogin> {
       text: "Entrar",
       press: () {
         if (_formKey.currentState.validate()) {
-          print("Ok");
+                        context.read<AuthenticationService>().signIn(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
         }
       },
       color: kPrimaryColor,

@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app_sp/Screens/PrincipalPage/components/background_principal.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 class GetUserName extends StatelessWidget {
   final String documentId;
 
@@ -91,59 +90,57 @@ class GetUserName extends StatelessWidget {
 Widget _dataTable(BuildContext context) {
   Size size = MediaQuery.of(context).size;
 
-
-      return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: const <DataColumn>[
-              DataColumn(
-                label: Text(
-                  'Entidad',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Saldo',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Qgynas restantes',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-            ],
-            rows: <DataRow>[
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text("srgsg")),
-                  DataCell(Text("grgdrg")),
-                  DataCell(Text('43')),
-                ],
-              ),
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('Inbursa')),
-                  DataCell(Text('15,400')),
-                  DataCell(Text('32')),
-                ],
-              ),
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('Credito Maestro')),
-                  DataCell(Text('6,300')),
-                  DataCell(Text('18')),
-                ],
-              ),
-            ],
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: DataTable(
+      columns: const <DataColumn>[
+        DataColumn(
+          label: Text(
+            'Entidad',
+            style: TextStyle(fontStyle: FontStyle.italic),
           ),
-        );
-      
+        ),
+        DataColumn(
+          label: Text(
+            'Saldo',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+        DataColumn(
+          label: Text(
+            'Qgynas restantes',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ],
+      rows: <DataRow>[
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Text("srgsg")),
+            DataCell(Text("grgdrg")),
+            DataCell(Text('43')),
+          ],
+        ),
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Text('Inbursa')),
+            DataCell(Text('15,400')),
+            DataCell(Text('32')),
+          ],
+        ),
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Text('Credito Maestro')),
+            DataCell(Text('6,300')),
+            DataCell(Text('18')),
+          ],
+        ),
+      ],
+    ),
+  );
 
-      return Center(
-        child: CircularProgressIndicator(), //loading
-      );
-  
+  return Center(
+    child: CircularProgressIndicator(), //loading
+  );
 }
+

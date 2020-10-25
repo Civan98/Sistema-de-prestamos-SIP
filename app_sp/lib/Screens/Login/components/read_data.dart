@@ -88,6 +88,7 @@ class GetUserName extends StatelessWidget {
 }
 
 Widget _dataTable(BuildContext context) {
+  //aqui debe ir lo que retorna test.dar la tabal con diseño
   Size size = MediaQuery.of(context).size;
 
   return SingleChildScrollView(
@@ -143,4 +144,3 @@ Widget _dataTable(BuildContext context) {
     child: CircularProgressIndicator(), //loading
   );
 }
-

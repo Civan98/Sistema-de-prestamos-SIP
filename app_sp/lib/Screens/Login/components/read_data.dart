@@ -59,13 +59,14 @@ class GetUserName extends StatelessWidget {
                     "RFC: ${data['rfc']}",
                     style: TextStyle(fontSize: 26),
                   ),
-                  _dataTable(context),
+                  _stremData(),
+                  //_dataTable(context),
                   Text(
-                    "Saldo: 56,900",
+                    "Saldo: ${data['saldo']}",
                     style: TextStyle(fontSize: 26),
                   ),
                   Text(
-                    "Saldo Disponible:1,500",
+                    "Saldo disponible: ${data['saldo_disponible']}",
                     style: TextStyle(fontSize: 26),
                   ),
                   /*Aquí va en contenido*/
@@ -87,6 +88,103 @@ class GetUserName extends StatelessWidget {
   }
 }
 
+_stremData() {
+  CollectionReference entidad =
+      FirebaseFirestore.instance.collection('entidad financiera');
+
+  return StreamBuilder<QuerySnapshot>(
+      stream: entidad.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 1.0),
+                      child: DataTable(
+                        rows: [],
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text(
+                              'Entidad',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Saldo',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Qnas restantes',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+              Column(
+                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  String Otorgado = document
+                      .data()['Otorgado']
+                      .toString(); //conversion de dato otorgado de int a string
+                  String Qnas_restantes =
+                      document.data()['Qnas restantes'].toString();
+                  return DataTable(
+                    columns: <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          '',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          '',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          '',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(document.data()['Nombre'])),
+                          DataCell(Text("$Otorgado")),
+                          DataCell(Text("$Qnas_restantes")),
+                        ],
+                      ),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      });
+}
+
+//este widget se puede borrar ya que no se ocupa
 Widget _dataTable(BuildContext context) {
   //aqui debe ir lo que retorna test.dar la tabal con diseño
   Size size = MediaQuery.of(context).size;

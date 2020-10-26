@@ -131,7 +131,7 @@ class _BodyLoginState extends State<BodyLogin> {
       text: "Entrar",
       press: () {
         if (_formKey.currentState.validate()) {
-                        context.read<AuthenticationService>().signIn(
+                    context.read<AuthenticationService>().signIn(
                     email: emailController.text.trim(),
                     password: passwordController.text.trim(),
                   );

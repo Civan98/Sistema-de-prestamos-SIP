@@ -9,7 +9,7 @@ class PrincipalPage extends StatelessWidget {
     return Scaffold(
       // body: BodyPrincipal(),
       //body: GetUserName('1'),//aqui manda a traer el principal en el argumento debe ir el ID del usuario
-        body: UserInformation(),
+        body: BodyPrincipal(),
     );
   }
 }

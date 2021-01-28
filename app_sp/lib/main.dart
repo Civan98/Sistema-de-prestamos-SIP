@@ -1,58 +1,67 @@
-import 'package:app_sp/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:app_sp/Screens/Welcome/welcome_screen.dart';
-import 'package:app_sp/constants.dart';
-import 'package:provider/provider.dart';
+import 'package:spi_salario/solucitudesPages/solicitud_page.dart';
+import 'package:spi_salario/src/SP_mensajesPages/mensajes_page.dart';
+import 'package:spi_salario/src/bloc/provider.dart';
+import 'package:spi_salario/src/cone_mysql/conexion.dart';
+import 'package:spi_salario/src/consulta_capacidadPages/capacidad_page.dart';
+import 'package:spi_salario/src/consulta_capacidadPages/detalleOtorgamiento_page.dart';
+import 'package:spi_salario/src/consulta_capacidadPages/detallePrereserva_Page.dart';
+import 'package:spi_salario/src/consulta_capacidadPages/detalleReserva_page.dart';
+import 'package:spi_salario/src/pages/carga_page.dart';
+import 'package:spi_salario/src/pages/detalles1_page.dart';
+import 'package:spi_salario/src/pages/detalles2_page.dart';
+import 'package:spi_salario/src/pages/home_page.dart';
+import 'package:spi_salario/src/pages/login_page.dart';
+import 'package:spi_salario/src/pages/logout_page.dart';
+import 'package:spi_salario/src/pages/registro_page.dart';
+import 'package:spi_salario/src/preferencias_usuarios/preferencias_usuario.dart';
+import 'package:spi_salario/src/prestamosPages/consultarPrestamos_page.dart';
+import 'package:spi_salario/src/prestamosPages/detallesPrestamo_page.dart';
+import 'src/pages/restaurar_page.dart';
 
-import 'Screens/Login/login_screen.dart';
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); //despues de que se actulizo flutter surge un error al meter una funcion async al main con esto se quita
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
 
-//Permite unir o pegar un estado o valor en todos los hijos
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) => context.read<AuthenticationService>().authStateChanges,
-        )
-      ],
-      child: MaterialApp(
+    final prefs = new PreferenciasUsuario();
+    //print(prefs.token); //imprime el token
+    //print(prefs.email); //imprime el email
+    return Provider(
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'App sp',
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: AutenticationWrapper(),//WelcomeScreen(),
-    ),
-      );
+      title: 'SPI-SALARIO',
+      initialRoute: 'getdata',
+      routes: {
+        'login': (BuildContext context) => LoginPage(),
+        'home': (BuildContext context) => HomePage(),
+        'registro': (BuildContext context) => RegistroPage(),
+        'detalles1': (BuildContext context) => Detalles1Page(),
+        'detalles2': (BuildContext context) => Detalles2Page(),
+        'restaurar': (BuildContext context) => ReataurarPage(),
+        'carga': (BuildContext context) => CargaPage(),
+        'logout': (BuildContext context) => LogoutPage(),
+        'consultarPrestamos': (BuildContext context) =>
+            ConsultarPrestamosPage(),
+        'detallesPrestamo': (BuildContext context) => DetallesPrestamoPage(),
+        //RUTAS DE CONSULTA CAPACIDAD//
+        'consultaCapacidad': (BuildContext context) => CapacidadPage(),
+        'dReserva': (BuildContext context) => DReservaPage(),
+        'dPreReserva': (BuildContext context) => DPreReservaPage(),
+        'dOtorgamiento': (BuildContext context) => DotorgamientoPage(),
+        'solicitudes':(BuildContext context) => SolicitudPage(),
+        'mensaje': (BuildContext context) => MensajePage(),
+        'getdata': (BuildContext context) => Getdata(),
+
+      },
+      theme: ThemeData(primaryColor: Colors.blue[800]),
+    ));
   }
-}
-
-class AutenticationWrapper extends StatelessWidget {
-  const AutenticationWrapper({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-  
-  final firebaseUser = context.watch<User>();
-  if (firebaseUser != null) {
-      return WelcomeScreen();
-    }
-    return LoginScreen();
-    }
 }
